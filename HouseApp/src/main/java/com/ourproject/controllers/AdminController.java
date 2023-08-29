@@ -27,30 +27,28 @@ public class AdminController {
     private HostelService hostelService;
     
     @Autowired
-    private  RoomService roomService;
+    private RoomService roomService;
     
     @Autowired
-    private  ImageService imageService;
+    private ImageService imageService;
     
     @GetMapping("/admin")
-    public String showAdminPage(Model model){
+    public String showAdminPage(Model model) {
         List<Hostel> unapprovedHostels = hostelService.getUnapprovedHostels();
         List<Room> unapprovedRooms = roomService.getUnapprovedRooms();
         model.addAttribute("unapprovedHostels", unapprovedHostels);
-        model.addAttribute("unapprovedHostels", unapprovedRooms);
+        model.addAttribute("unapprovedRooms", unapprovedRooms); // Sử dụng tên thuộc tính khác nhau
 
         return "admin";
     }
     
     @PostMapping("/approve")
-    public String approvePost(@RequestParam("type") String type, @RequestParam("id") int id){
-        if("hostel".equals(type)){
+    public String approvePost(@RequestParam("type") String type, @RequestParam("id") int id) {
+        if ("hostel".equals(type)) {
             hostelService.approveHostel(id);
-        } else if ("room".equals(type)){
+        } else if ("room".equals(type)) {
             roomService.approveRoom(id);
         }
         return "redirect:/admin";
-        
     }
-    
 }

@@ -3,6 +3,49 @@
 <html>
     <head>
         <title>Trang quản trị viên</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+            h1 {
+                text-align: center;
+                margin-top: 20px;
+            }
+            h2 {
+                margin-top: 20px;
+            }
+            table {
+                width: 80%;
+                margin: 20px auto;
+                border-collapse: collapse;
+                background-color: white;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            }
+            th, td {
+                padding: 10px 15px;
+                text-align: center;
+            }
+            th {
+                background-color: #007bff;
+                color: white;
+            }
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+            form {
+                display: inline-block;
+            }
+            button {
+                padding: 5px 10px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+        </style>
     </head>
     <body>
         <h1>Trang quản trị viên</h1>
@@ -31,7 +74,5 @@
                 </tr>
             </c:forEach>
         </table>
-
-
     </body>
 </html>

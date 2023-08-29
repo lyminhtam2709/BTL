@@ -25,11 +25,7 @@
                             <label for="hostelPhone">Số điện thoại Hostel:</label>
                             <input type="tel" class="form-control" id="hostelPhone" name="hostelPhone" required>
                         </div>
-                        <!-- Room fields -->
-                        <div class="form-group">
-                            <label for="roomName">Tên phòng:</label>
-                            <input type="text" class="form-control" id="roomName" name="roomName" required>
-                        </div>
+
                         <div class="form-group">
                             <label for="roomDescription">Mô tả phòng:</label>
                             <textarea class="form-control" id="roomDescription" name="roomDescription" required></textarea>

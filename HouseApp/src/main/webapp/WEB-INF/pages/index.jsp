@@ -29,6 +29,7 @@
                 background-color: rgba(0, 0, 0, 0.5);
                 justify-content: center;
                 align-items: center;
+                z-index: 9999; /* Đảm bảo nằm trên tất cả các phần khác */
             }
 
             .modal-content {
@@ -42,6 +43,7 @@
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
                 justify-content: center;
                 align-items: center;
+                z-index: 9999; /* Đảm bảo nằm trên tất cả các phần khác */
             }
 
             .close {
@@ -69,6 +71,48 @@
                 border-radius: 5px;
                 margin-top: 5px;
             }
+            .footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: #f8f9fa;
+                padding: 0;
+                text-align: center;
+                z-index: 999;
+            }
+            .main-content {
+                max-height: calc(100vh - 160px); /* Calculate available height for content */
+                overflow-y: auto;
+            }
+
+            .image-preview-container {
+                max-width: 100%;
+                overflow: hidden;
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            #imagePreview {
+                max-width: 100%;
+                max-height: 200px;
+            }
+            .search-form {
+                padding: 10px;
+                max-width: 300px; /* Đặt chiều rộng tối đa cho biểu mẫu */
+                margin: 0 auto; /* Căn giữa biểu mẫu */
+            }
+
+            .search-form form {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            body {
+                padding-bottom: 150px;
+                overflow-y: auto;
+                overflow: auto;
+            }
         </style>
     </head>
     <body>
@@ -84,8 +128,8 @@
                 Tìm Nhà Trọ
             </button>
 
-            <div class="collapse mt-3" id="searchForm">
-                <form action="search_result.jsp" method="get">
+            <div class="collapse mt-3 search-form" id="searchForm" style="padding: 10px;">
+                <form action="search_result.jsp" method="get" class="custom-search-form">
                     <div class="form-group">
                         <label for="address">Địa chỉ:</label>
                         <input type="text" class="form-control" name="address" id="address" required>
@@ -126,7 +170,7 @@
                         <input type="text" id="username" name="username"><br>
                         <label for="password">Mật khẩu:</label>
                         <input type="password" id="password" name="password"><br>
-                        <button type="submit">Đăng nhập</button>
+                        <button type="submit">Đăng nhập</button><br>
                         <button type="button" id="cancelButton">Hủy</button>
                     </form>
                 </div>
@@ -138,13 +182,40 @@
                     <form>
                         <label for="signupUsername">Tài khoản:</label>
                         <input type="text" id="signupUsername" name="signupUsername"><br>
+
                         <label for="signupPassword">Mật khẩu:</label>
                         <input type="password" id="signupPassword" name="signupPassword"><br>
+
                         <label for="signupPassword2">Nhập lại mật khẩu:</label>
                         <input type="password" id="signupPassword2" name="signupPassword2"><br>
-                        <button type="submit">Đăng ký</button>
+
+                        <label for="avatar">Chọn ảnh đại diện (avatar):</label>
+                        <input type="file" id="avatar" name="avatar" accept="image/*" onchange="handleFileUpload(this)">
+                        <div class="image-preview-container">
+                            <img id="imagePreview" alt="Avatar preview">
+                        </div>
+
+                        <button type="submit">Đăng ký</button><br>
                         <button type="button" id="cancelSignupButton">Hủy</button>
                     </form>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3>Address</h3>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>Service</h3>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -152,19 +223,19 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
-                        function openLoginModal() {
-                            var loginModal = document.getElementById("loginModal");
-                            loginModal.style.display = "block";
-                        }
+                            function openLoginModal() {
+                                var loginModal = document.getElementById("loginModal");
+                                loginModal.style.display = "block";
+                            }
 
-                        function closeLoginModal() {
-                            var loginModal = document.getElementById("loginModal");
-                            loginModal.style.display = "none";
-                        }
-                        document.addEventListener("DOMContentLoaded", function () {
-                            var loginModal = document.getElementById("loginModal");
-                            loginModal.style.display = "none";
-                        });
+                            function closeLoginModal() {
+                                var loginModal = document.getElementById("loginModal");
+                                loginModal.style.display = "none";
+                            }
+                            document.addEventListener("DOMContentLoaded", function () {
+                                var loginModal = document.getElementById("loginModal");
+                                loginModal.style.display = "none";
+                            });
         </script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -199,6 +270,20 @@
             function closeSignupModal() {
                 var signupModal = document.getElementById("signupModal");
                 signupModal.style.display = "none";
+            }
+        </script>
+        <script>
+            function handleFileUpload(input) {
+                var file = input.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var imagePreview = document.getElementById("imagePreview");
+                        imagePreview.src = e.target.result;
+                        imagePreview.style.display = "block";
+                    };
+                    reader.readAsDataURL(file);
+                }
             }
         </script>
     </body>
